@@ -1,0 +1,356 @@
+ ros2 launch sprinter_description sprinter_sim.launch.py
+[INFO] [launch]: All log files can be found below /home/usera/.ros/log/2025-12-07-13-00-51-385791-mobilerobotics2025-67379
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [gazebo-1]: process started with pid [67382]
+[INFO] [robot_state_publisher-2]: process started with pid [67383]
+[INFO] [create-3]: process started with pid [67385]
+[INFO] [spawner-4]: process started with pid [67386]
+[INFO] [spawner-5]: process started with pid [67387]
+[INFO] [bolt_motion-6]: process started with pid [67388]
+[INFO] [sprint_controller-7]: process started with pid [67391]
+[create-3] [INFO] [1765108851.845028741] [ros_gz_sim]: Requesting list of world names.
+[robot_state_publisher-2] [INFO] [1765108851.985889847] [robot_state_publisher]: Robot initialized
+[spawner-4] [INFO] [1765108852.534457789] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[sprint_controller-7] [INFO] [1765108852.540639392] [sprint_controller]: Controller started. State: WAITING_FOR_POSE
+[sprint_controller-7] [INFO] [1765108852.554807640] [sprint_controller]: Subscribing to '/sprinter/pose'...
+[gazebo-1] [Dbg] [gz.cc:166] Subscribing to [/gazebo/starting_world].
+[gazebo-1] [Dbg] [gz.cc:168] Waiting for a world to be set from the GUI...
+[gazebo-1] [Msg] Received world [empty.sdf] from the GUI.
+[gazebo-1] [Dbg] [gz.cc:172] Unsubscribing from [/gazebo/starting_world].
+[gazebo-1] [Msg] Gazebo Sim Server v8.10.0
+[gazebo-1] [Msg] Loading SDF world file[/opt/ros/jazzy/opt/gz_sim_vendor/share/gz/gz-sim8/worlds/empty.sdf].
+[gazebo-1] [Msg] Serving entity system service on [/entity/system/add]
+[gazebo-1] [Dbg] [Physics.cc:899] Loaded [gz::physics::dartsim::Plugin] from library [/opt/ros/jazzy/opt/gz_physics_vendor/lib/gz-physics-7/engine-plugins/libgz-physics-dartsim-plugin.so]
+[gazebo-1] [Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::Physics] for entity [1]
+[gazebo-1] [Msg] Create service on [/world/empty/create_multiple] (async)
+[gazebo-1] [Msg] Create service on [/world/empty/create_multiple/blocking] (blocking)
+[gazebo-1] [Msg] Remove service on [/world/empty/remove] (async)
+[gazebo-1] [Msg] Remove service on [/world/empty/remove/blocking] (blocking)
+[gazebo-1] [Msg] Pose service on [/world/empty/set_pose] (async)
+[gazebo-1] [Msg] Pose service on [/world/empty/set_pose/blocking] (blocking)
+[gazebo-1] [Msg] Pose service on [/world/empty/set_pose_vector] (async)
+[gazebo-1] [Msg] Pose service on [/world/empty/set_pose_vector/blocking] (blocking)
+[gazebo-1] [Msg] Light configuration service on [/world/empty/light_config] (async)
+[gazebo-1] [Msg] Light configuration service on [/world/empty/light_config/blocking] (blocking)
+[gazebo-1] [Msg] Physics service on [/world/empty/set_physics] (async)
+[gazebo-1] [Msg] Physics service on [/world/empty/set_physics/blocking] (blocking)
+[gazebo-1] [Msg] SphericalCoordinates service on [/world/empty/set_spherical_coordinates] (async)
+[gazebo-1] [Msg] SphericalCoordinates service on [/world/empty/set_spherical_coordinates/blocking] (blocking)
+[gazebo-1] [Msg] Enable collision service on [/world/empty/enable_collision] (async)
+[gazebo-1] [Msg] Enable collision service on [/world/empty/enable_collision/blocking] (blocking)
+[gazebo-1] [Msg] Disable collision service on [/world/empty/disable_collision] (async)
+[gazebo-1] [Msg] Disable collision service on [/world/empty/disable_collision/blocking] (blocking)
+[gazebo-1] [Msg] Material service on [/world/empty/visual_config] (async)
+[gazebo-1] [Msg] Material service on [/world/empty/visual_config/blocking] (blocking)
+[gazebo-1] [Msg] Material service on [/world/empty/wheel_slip] (async)
+[create-3] [INFO] [1765108852.953374348] [ros_gz_sim]: Waiting messages on topic [/robot_description].
+[create-3] [INFO] [1765108852.977452709] [ros_gz_sim]: Entity creation successful.
+[INFO] [create-3]: process has finished cleanly [pid 67385]
+[bolt_motion-6] [INFO] [1765108853.184020117] [bolt_motion]: Starting bolt_motion node...
+[bolt_motion-6] [INFO] [1765108853.196146950] [bolt_motion]: Run 1 started at x=0.0 m (camera following).
+[sprint_controller-7] [INFO] [1765108853.198625633] [sprint_controller]: SUCCESS: First robot pose received from Gazebo.
+[sprint_controller-7] [INFO] [1765108853.199215492] [sprint_controller]: --- STATE CHANGE: PREPARING (Moving to stable stand) ---
+[gazebo-1] [INFO] [1765108854.250415045] [gz_ros_control]: [gz_ros2_control] Fixed joint [world_to_base_joint] (Entity=26)] is skipped
+[gazebo-1] [INFO] [1765108854.258229021] [gz_ros_control]: Loading controller_manager
+[gazebo-1] [INFO] [1765108854.413132103] [controller_manager]: Using ROS clock for triggering controller manager cycles.
+[gazebo-1] [GUI] [Wrn] [Application.cc:908] [QT] file:///usr/lib/x86_64-linux-gnu/qt5/qml/QtQuick/Dialogs/DefaultFileDialog.qml:413:17: QML ToolButton: Binding loop detected for property "implicitHeight"
+[gazebo-1] [GUI] [Wrn] [Application.cc:908] [QT] file:///usr/lib/x86_64-linux-gnu/qt5/qml/QtQuick/Dialogs/DefaultFileDialog.qml:309:21: QML Button: Binding loop detected for property "implicitHeight"
+[gazebo-1] [GUI] [Wrn] [Application.cc:908] [QT] file:///usr/lib/x86_64-linux-gnu/qt5/qml/QtQuick/Dialogs/DefaultFileDialog.qml:309:21: QML Button: Binding loop detected for property "implicitHeight"
+[gazebo-1] [GUI] [Wrn] [Application.cc:908] [QT] file:///usr/lib/x86_64-linux-gnu/qt5/qml/QtQuick/Dialogs/DefaultFileDialog.qml:413:17: QML ToolButton: Binding loop detected for property "implicitHeight"
+[gazebo-1] [GUI] [Wrn] [Application.cc:908] [QT] file:///usr/lib/x86_64-linux-gnu/qt5/qml/QtQuick/Dialogs/DefaultFileDialog.qml:309:21: QML Button: Binding loop detected for property "implicitHeight"
+[gazebo-1] [GUI] [Wrn] [Application.cc:908] [QT] file:///usr/lib/x86_64-linux-gnu/qt5/qml/QtQuick/Dialogs/DefaultFileDialog.qml:309:21: QML Button: Binding loop detected for property "implicitHeight"
+[sprint_controller-7] [INFO] [1765108854.773288955] [sprint_controller]: --- STATE CHANGE: READY_STANCE (Getting into crouch) ---
+[gazebo-1] [INFO] [1765108854.838386332] [controller_manager]: Subscribing to '/robot_description' topic for robot description.
+[gazebo-1] [GUI] [Wrn] [Application.cc:908] [QT] file:///usr/lib/x86_64-linux-gnu/qt5/qml/QtQuick/Dialogs/DefaultFileDialog.qml:413:17: QML ToolButton: Binding loop detected for property "implicitHeight"
+[gazebo-1] [GUI] [Wrn] [Application.cc:908] [QT] file:///usr/lib/x86_64-linux-gnu/qt5/qml/QtQuick/Dialogs/DefaultFileDialog.qml:309:21: QML Button: Binding loop detected for property "implicitHeight"
+[gazebo-1] [GUI] [Wrn] [Application.cc:908] [QT] file:///usr/lib/x86_64-linux-gnu/qt5/qml/QtQuick/Dialogs/DefaultFileDialog.qml:309:21: QML Button: Binding loop detected for property "implicitHeight"
+[gazebo-1] [INFO] [1765108854.913575306] [controller_manager]: Received robot description from topic.
+[gazebo-1] [WARN] [1765108854.913927073] [gz_ros_control]: Waiting RM to load and initialize hardware...
+[gazebo-1] [INFO] [1765108854.951513327] [gz_ros_control]: The position_proportional_gain has been set to: 0.1
+[gazebo-1] [INFO] [1765108854.954021179] [gz_ros_control]: Loading joint: left_hip_joint
+[gazebo-1] [INFO] [1765108854.954059222] [gz_ros_control]:      State:
+[gazebo-1] [INFO] [1765108854.954065342] [gz_ros_control]:               position
+[gazebo-1] [INFO] [1765108854.954075984] [gz_ros_control]:               velocity
+[gazebo-1] [INFO] [1765108854.954088261] [gz_ros_control]:      Command:
+[gazebo-1] [INFO] [1765108854.954092547] [gz_ros_control]:               position
+[gazebo-1] [INFO] [1765108854.954109841] [gz_ros_control]: Loading joint: right_hip_joint
+[gazebo-1] [INFO] [1765108854.954114369] [gz_ros_control]:      State:
+[gazebo-1] [INFO] [1765108854.954118566] [gz_ros_control]:               position
+[gazebo-1] [INFO] [1765108854.954123427] [gz_ros_control]:               velocity
+[gazebo-1] [INFO] [1765108854.954127775] [gz_ros_control]:      Command:
+[gazebo-1] [INFO] [1765108854.954131827] [gz_ros_control]:               position
+[gazebo-1] [INFO] [1765108854.954143263] [gz_ros_control]: Loading joint: left_knee_joint
+[gazebo-1] [INFO] [1765108854.954147621] [gz_ros_control]:      State:
+[gazebo-1] [INFO] [1765108854.954151677] [gz_ros_control]:               position
+[gazebo-1] [INFO] [1765108854.954339943] [gz_ros_control]:               velocity
+[gazebo-1] [INFO] [1765108854.954352748] [gz_ros_control]:      Command:
+[gazebo-1] [INFO] [1765108854.954357162] [gz_ros_control]:               position
+[gazebo-1] [INFO] [1765108854.954377120] [gz_ros_control]: Loading joint: right_knee_joint
+[gazebo-1] [INFO] [1765108854.954382182] [gz_ros_control]:      State:
+[gazebo-1] [INFO] [1765108854.954386559] [gz_ros_control]:               position
+[gazebo-1] [INFO] [1765108854.954390919] [gz_ros_control]:               velocity
+[gazebo-1] [INFO] [1765108854.954395215] [gz_ros_control]:      Command:
+[gazebo-1] [INFO] [1765108854.954399183] [gz_ros_control]:               position
+[gazebo-1] [INFO] [1765108854.954917268] [controller_manager]: Initialize hardware 'GazeboSystem' 
+[gazebo-1] [WARN] [1765108854.956880441] [controller_manager]: Executor is not available during hardware component initialization for 'GazeboSystem'. Skipping node creation!
+[gazebo-1] [INFO] [1765108854.957033247] [controller_manager]: Successful initialization of hardware 'GazeboSystem'
+[gazebo-1] [INFO] [1765108854.957952064] [resource_manager]: 'configure' hardware 'GazeboSystem' 
+[gazebo-1] [INFO] [1765108854.957975186] [gz_ros_control]: System Successfully configured!
+[gazebo-1] [INFO] [1765108854.958106286] [resource_manager]: Successful 'configure' of hardware 'GazeboSystem'
+[gazebo-1] [INFO] [1765108854.958127729] [resource_manager]: 'activate' hardware 'GazeboSystem' 
+[gazebo-1] [INFO] [1765108854.958139580] [resource_manager]: Successful 'activate' of hardware 'GazeboSystem'
+[gazebo-1] [WARN] [1765108854.960060904] [controller_manager]: Component 'GazeboSystem' does not have read or write statistics initialized, skipping registration.
+[gazebo-1] [INFO] [1765108854.960094904] [controller_manager]: Resource Manager has been successfully initialized. Starting Controller Manager services...
+[gazebo-1] [INFO] [1765108855.139009541] [controller_manager]: Loading controller : 'joint_state_broadcaster' of type 'joint_state_broadcaster/JointStateBroadcaster'
+[gazebo-1] [INFO] [1765108855.140277249] [controller_manager]: Loading controller 'joint_state_broadcaster'
+[gazebo-1] [INFO] [1765108855.181776476] [controller_manager]: Controller 'joint_state_broadcaster' node arguments: --ros-args --params-file /home/usera/projects/ros2/df/advmanufacturing-main/sprinter_ws/install/sprinter_description/share/sprinter_description/config/sprinter_controllers.yaml -p use_sim_time:=true --param use_sim_time:=true 
+[spawner-4] [INFO] [1765108855.378461239] [spawner_joint_state_broadcaster]: Loaded joint_state_broadcaster
+[gazebo-1] [INFO] [1765108855.400040414] [controller_manager]: Configuring controller: 'joint_state_broadcaster'
+[gazebo-1] [INFO] [1765108855.400414982] [joint_state_broadcaster]: 'joints' or 'interfaces' parameter is empty. All available state interfaces will be published
+[gazebo-1] [INFO] [1765108855.520285046] [controller_manager]: Activating controllers: [ joint_state_broadcaster ]
+[gazebo-1] [M[Msg] Gazebo Sim GUI    v8.10.0
+[gazebo-1] [Dbg] [Gui.cc:275] Waiting for subscribers to [/gazebo/starting_world]...
+[gazebo-1] [Dbg] [Application.cc:96] Initializing application.
+[gazebo-1] [Dbg] [Application.cc:170] Qt using OpenGL graphics interface
+[gazebo-1] [GUI] [Dbg] [Application.cc:657] Create main window
+[gazebo-1] [GUI] [Dbg] [PathManager.cc:68] Requesting resource paths through [/gazebo/resource_paths/get]
+[gazebo-1] [GUI] [Dbg] [PathManager.cc:57] Received resource paths.
+[gazebo-1] [GUI] [Dbg] [Gui.cc:355] GUI requesting list of world names. The server may be busy downloading resources. Please be patient.
+[gazebo-1] [GUI] [Dbg] [Gui.cc:413] Requesting GUI from [/world/empty/gui/info]...
+[gazebo-1] [GUI] [Dbg] [GuiRunner.cc:149] Requesting initial state from [/world/empty/state]...
+[gazebo-1] [GUI] [Msg] Loading config [/home/usera/.gz/sim/8/gui.config]
+[gazebo-1] [GUI] [Dbg] [Application.cc:528] Loading plugin [MinimalScene]
+[gazebo-1] [GUI] [Dbg] [MinimalScene.cc:802] Creating gz-rendering interface for OpenGL
+[gazebo-1] [GUI] [Dbg] [MinimalScene.cc:802] Creating gz-rendering interface for OpenGL
+[gazebo-1] [GUI] [Dbg] [MinimalScene.cc:986] Creating render thread interface for OpenGL
+[gazebo-1] [GUI] [Dbg] [MinimalScene.cc:802] Creating gz-rendering interface for OpenGL
+[gazebo-1] [GUI] [Dbg] [MinimalScene.cc:986] Creating render thread interface for OpenGL
+[gazebo-1] [GUI] [Msg] Added plugin [3D View] to main window
+[gazebo-1] [GUI] [Msg] Loaded plugin [MinimalScene] from path [/opt/ros/jazzy/opt/gz_gui_vendor/lib/gz-gui-8/plugins/libMinimalScene.so]
+[gazebo-1] [GUI] [Dbg] [Application.cc:528] Loading plugin [EntityContextMenuPlugin]
+[gazebo-1] [GUI] [Msg] Currently tracking topic on [/gui/currently_tracked]
+[gazebo-1] [GUI] [Msg] Added plugin [Entity Context Menu] to main window
+[gazebo-1] [GUI] [Msg] Loaded plugin [EntityContextMenuPlugin] from path [/opt/ros/jazzy/opt/gz_sim_vendor/lib/gz-sim-8/plugins/gui/libEntityContextMenuPlugin.so]
+[gazebo-1] [GUI] [Dbg] [Application.cc:528] Loading plugin [GzSceneManager]
+[gazebo-1] [GUI] [Msg] Added plugin [Scene Manager] to main window
+[gazebo-1] [GUI] [Msg] Loaded plugin [GzSceneManager] from path [/opt/ros/jazzy/opt/gz_sim_vendor/lib/gz-sim-8/plugins/gui/libGzSceneManager.so]
+[gazebo-1] [GUI] [Dbg] [Application.cc:528] Loading plugin [InteractiveViewControl]
+[gazebo-1] [GUI] [Msg] Camera view controller topic advertised on [/gui/camera/view_control]
+[gazebo-1] [GUI] [Msg] Camera reference visual topic advertised on [/gui/camera/view_control/reference_visual]
+[gazebo-1] [GUI] [Msg] Camera view control sensitivity advertised on [/gui/camera/view_control/sensitivity]
+[gazebo-1] [GUI] [Msg] Added plugin [Interactive view control] to main window
+[gazebo-1] [GUI] [Msg] Loaded plugin [InteractiveViewControl] from path [/opt/ros/jazzy/opt/gz_gui_vendor/lib/gz-gui-8/plugins/libInteractiveViewControl.so]
+[gazebo-1] [GUI] [Dbg] [Application.cc:528] Loading plugin [CameraTracking]
+[gazebo-1] [GUI] [Msg] Added plugin [Camera tracking] to main window
+[gazebo-1] [GUI] [Msg] Loaded plugin [CameraTracking] from path [/opt/ros/jazzy/opt/gz_gui_vendor/lib/gz-gui-8/plugins/libCameraTracking.so]
+[gazebo-1] [GUI] [Dbg] [Application.cc:528] Loading plugin [MarkerManager]
+[gazebo-1] [GUI] [Msg] Listening to stats on [/world/empty/stats]
+[gazebo-1] [GUI] [Msg] Added plugin [Marker Manager] to main window
+[gazebo-1] [GUI] [Msg] Loaded plugin [MarkerManager] from path [/opt/ros/jazzy/opt/gz_gui_vendor/lib/gz-gui-8/plugins/libMarkerManager.so]
+[gazebo-1] [GUI] [Dbg] [Application.cc:528] Loading plugin [SelectEntities]
+[gazebo-1] [GUI] [Msg] Added plugin [Select entities] to main window
+[gazebo-1] [GUI] [Msg] Loaded plugin [SelectEntities] from path [/opt/ros/jazzy/opt/gz_sim_vendor/lib/gz-sim-8/plugins/gui/libSelectEntities.so]
+[gazebo-1] [GUI] [Dbg] [Application.cc:528] Loading plugin [Spawn]
+[gazebo-1] [GUI] [Msg] Added plugin [Spawn] to main window
+[gazebo-1] [GUI] [Msg] Loaded plugin [Spawn] from path [/opt/ros/jazzy/opt/gz_sim_vendor/lib/gz-sim-8/plugins/gui/libSpawn.so]
+[gazebo-1] [GUI] [Dbg] [Application.cc:528] Loading plugin [VisualizationCapabilities]
+[gazebo-1] [GUI] [Msg] View as transparent service on [/gui/view/transparent]
+[gazebo-1] [GUI] [Msg] View as wireframes service on [/gui/view/wireframes]
+[gazebo-1] [GUI] [Msg] View center of mass service on [/gui/view/com]
+[gazebo-1] [GUI] [Msg] View inertia service on [/gui/view/inertia]
+[gazebo-1] [GUI] [Msg] View collisions service on [/gui/view/collisions]
+[gazebo-1] [GUI] [Msg] View joints service on [/gui/view/joints]
+[gazebo-1] [GUI] [Msg] View frames service on [/gui/view/frames]
+[gazebo-1] [GUI] [Msg] Added plugin [Visualization capabilities] to main window
+[gazebo-1] [GUI] [Msg] Loaded plugin [VisualizationCapabilities] from path [/opt/ros/jazzy/opt/gz_sim_vendor/lib/gz-sim-8/plugins/gui/libVisualizationCapabilities.so]
+[gazebo-1] [GUI] [Dbg] [Application.cc:528] Loading plugin [WorldControl]
+[gazebo-1] [GUI] [Msg] Using world control service [/world/empty/control]
+[gazebo-1] [GUI] [Msg] Listening to stats on [/world/empty/stats]
+[gazebo-1] [GUI] [Dbg] [WorldControl.cc:237] Using an event to share WorldControl msgs with the server
+[gazebo-1] [GUI] [Wrn] [Application.cc:908] [QT] file:///usr/lib/x86_64-linux-gnu/qt5/qml/QtQuick/Dialogs/DefaultFileDialog.qml:413:17: QML ToolButton: Binding loop detected for property "implicitHeight"
+[gazebo-1] [GUI] [Wrn] [Application.cc:908] [QT] file:///usr/lib/x86_64-linux-gnu/qt5/qml/QtQuick/Dialogs/DefaultFileDialog.qml:309:21: QML Button: Binding loop detected for property "implicitHeight"
+[gazebo-1] [GUI] [Wrn] [Application.cc:908] [QT] file:///usr/lib/x86_64-linux-gnu/qt5/qml/QtQuick/Dialogs/DefaultFileDialog.qml:309:21: QML Button: Binding loop detected for property "implicitHeight"
+[sprint_controller-7] [INFO] [1765108856.775899822] [sprint_controller]: --- STATE CHANGE: SPRINTING ---
+[gazebo-1] [GUI] [Wrn] [Application.cc:908] [QT] file::/ComponentInspector/ComponentInspector.qml:251:3: QML Dialog: Binding loop detected for property "implicitHeight"
+[gazebo-1] [GUI] [Msg] Addedsg] Material service on [/world/empty/wheel_slip/blocking] (blocking)
+[gazebo-1] [Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::UserCommands] for entity [1]
+[gazebo-1] [Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::SceneBroadcaster] for entity [1]
+[gazebo-1] [Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::Contact] for entity [1]
+[gazebo-1] [Msg] Loaded level [default]
+[gazebo-1] [Msg] Serving world controls on [/world/empty/control], [/world/empty/control/state] and [/world/empty/playback/control]
+[gazebo-1] [Msg] Serving GUI information on [/world/empty/gui/info]
+[gazebo-1] [Msg] World [empty] initialized with [1ms] physics profile.
+[gazebo-1] [Msg] Serving world SDF generation service on [/world/empty/generate_world_sdf]
+[gazebo-1] [Msg] Serving world names on [/gazebo/worlds]
+[gazebo-1] [Msg] Resource path add service on [/gazebo/resource_paths/add].
+[gazebo-1] [Msg] Resource path get service on [/gazebo/resource_paths/get].
+[gazebo-1] [Msg] Resource path resolve service on [/gazebo/resource_paths/resolve].
+[gazebo-1] [Msg] Resource paths published on [/gazebo/resource_paths].
+[gazebo-1] [Msg] Server control service on [/server_control].
+[gazebo-1] [Msg] Found no publishers on /stats, adding root stats topic
+[gazebo-1] [Msg] Found no publishers on /clock, adding root clock topic
+[gazebo-1] [Dbg] [SimulationRunner.cc:533] Creating PostUpdate worker threads: 3
+[gazebo-1] [Dbg] [SimulationRunner.cc:544] Creating postupdate worker thread (0)
+[gazebo-1] [Dbg] [SimulationRunner.cc:544] Creating postupdate worker thread (1)
+[gazebo-1] [Dbg] [SystemManager.cc:80] Loaded system [gz_ros2_control::GazeboSimROS2ControlPlugin] for entity [10]
+[gazebo-1] [Dbg] [UserCommands.cc:1094] Created entity [10] named [sprinter]
+[gazebo-1] [Msg] Serving scene information on [/world/empty/scene/info]
+[gazebo-1] [Msg] Serving graph information on [/world/empty/scene/graph]
+[gazebo-1] [Msg] Serving full state on [/world/empty/state]
+[gazebo-1] [Msg] Serving full state (async) on [/world/empty/state_async]
+[gazebo-1] [Msg] Publishing scene information on [/world/empty/scene/info]
+[gazebo-1] [Msg] Publishing entity deletions on [/world/empty/scene/deletion]
+[gazebo-1] [Msg] Publishing state changes on [/world/empty/state]
+[gazebo-1] [Msg] Publishing pose messages on [/world/empty/pose/info]
+[gazebo-1] [WARN] [1765108856.977265724] [gz_ros_control]:  Desired controller update period (0.01 s) is slower than the gazebo simulation period (0.001 s).
+[gazebo-1] [WARN] [1765108857.006259527] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [INFO] [1765108857.009699032] [controller_manager]: Successfully switched controllers!
+[gazebo-1] [GUI] [Wrn] [Application.cc:908] [QT] file:///usr/lib/x86_64-linux-gnu/qt5/qml/QtQuick/Dialogs/DefaultFileDialog.qml:413:17: QML ToolButton: Binding loop detected for property "implicitHeight"
+[gazebo-1] [GUI] [Wrn] [Application.cc:908] [QT] file:///usr/lib/x86_64-linux-gnu/qt5/qml/QtQuick/Dialogs/DefaultFileDialog.qml:309:21: QML Button: Binding loop detected for property "implicitHeight"
+[gazebo-1] [GUI] [Wrn] [Application.cc:908] [QT] file:///usr/lib/x86_64-linux-gnu/qt5/qml/QtQuick/Dialogs/DefaultFileDialog.qml:309:21: QML Button: Binding loop detected for property "implicitHeight"
+[spawner-4] [INFO] [1765108857.045764257] [spawner_joint_state_broadcaster]: Configured and activated joint_state_broadcaster
+[gazebo-1] [Msg] Publishing dynamic pose messages on [/world/empty/dynamic_pose/info]lugin [World control] to main window
+[gazebo-1] [GUI] [Msg] Loaded plugin [WorldControl] from path [/opt/ros/jazzy/opt/gz_gui_vendor/lib/gz-gui-8/plugins/libWorldControl.so]
+[gazebo-1] [GUI] [Dbg] [Application.cc:528] Loading plugin [WorldStats]
+[gazebo-1] [GUI] [Msg] Listening to stats on [/world/empty/stats]
+[gazebo-1] [GUI] [Msg] Added plugin [World stats] to main window
+[gazebo-1] [GUI] [Msg] Loaded plugin [WorldStats] from path [/opt/ros/jazzy/opt/gz_gui_vendor/lib/gz-gui-8/plugins/libWorldStats.so]
+[gazebo-1] [GUI] [Dbg] [Application.cc:528] Loading plugin [Shapes]
+[gazebo-1] [GUI] [Msg] Added plugin [Shapes] to main window
+[gazebo-1] [GUI] [Msg] Loaded plugin [Shapes] from path [/opt/ros/jazzy/opt/gz_sim_vendor/lib/gz-sim-8/plugins/gui/libShapes.so]
+[gazebo-1] [GUI] [Dbg] [Application.cc:528] Loading plugin [Lights]
+[gazebo-1] [GUI] [Msg] Added plugin [Lights] to main window
+[gazebo-1] [GUI] [Msg] Loaded plugin [Lights] from path [/opt/ros/jazzy/opt/gz_sim_vendor/lib/gz-sim-8/plugins/gui/libLights.so]
+[gazebo-1] [GUI] [Dbg] [Application.cc:528] Loading plugin [TransformControl]
+[gazebo-1] [GUI] [Msg] Added plugin [Transform control] to main window
+[gazebo-1] [GUI] [Msg] Loaded plugin [TransformControl] from path [/opt/ros/jazzy/opt/gz_sim_vendor/lib/gz-sim-8/plugins/gui/libTransformControl.so]
+[gazebo-1] [GUI] [Dbg] [Application.cc:528] Loading plugin [Screenshot]
+[gazebo-1] [GUI] [Msg] Screenshot service on [/gui/screenshot]
+[gazebo-1] [GUI] [Msg] Added plugin [Screenshot] to main window
+[gazebo-1] [GUI] [Msg] Loaded plugin [Screenshot] from path [/opt/ros/jazzy/opt/gz_gui_vendor/lib/gz-gui-8/plugins/libScreenshot.so]
+[gazebo-1] [GUI] [Dbg] [Application.cc:528] Loading plugin [CopyPaste]
+[gazebo-1] [GUI] [Msg] Added plugin [Copy/Paste] to main window
+[gazebo-1] [GUI] [Msg] Loaded plugin [CopyPaste] from path [/opt/ros/jazzy/opt/gz_sim_vendor/lib/gz-sim-8/plugins/gui/libCopyPaste.so]
+[gazebo-1] [GUI] [Dbg] [Application.cc:528] Loading plugin [ComponentInspector]
+[gazebo-1] [GUI] [Msg] Added plugin [Component inspector] to main window
+[gazebo-1] [GUI] [Msg] Loaded plugin [ComponentInspector] from path [/opt/ros/jazzy/opt/gz_sim_vendor/lib/gz-sim-8/plugins/gui/libComponentInspector.so]
+[gazebo-1] [GUI] [Dbg] [Application.cc:528] Loading plugin [EntityTree]
+[gazebo-1] [GUI] [Msg] Currently tracking topic on [/gui/currently_tracked]
+[gazebo-1] [GUI] [Msg] Added plugin [Entity tree] to main window
+[spawner-5] [INFO] [1765108857.599849624] [spawner_joint_trajectory_controller]: waiting for service /controller_manager/list_controllers to become available...
+[INFO] [spawner-4]: process has finished cleanly [pid 67386]
+[gazebo-1] [GUI] [Wrn] [Application.cc:908] [QT] file::/WorldStats/WorldStats.qml:53:3: QML RowLayout: Binding loop detected for property "x"
+[gazebo-1] [WARN] [1765108858.017099299] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [INFO] [1765108858.365363980] [controller_manager]: Loading controller : 'joint_trajectory_controller' of type 'joint_trajectory_controller/JointTrajectoryController'
+[gazebo-1] [INFO] [1765108858.365411996] [controller_manager]: Loading controller 'joint_trajectory_controller'
+[gazebo-1] [INFO] [1765108858.404748905] [controller_manager]: Controller 'joint_trajectory_controller' node arguments: --ros-args --params-file /home/usera/projects/ros2/df/advmanufacturing-main/sprinter_ws/install/sprinter_description/share/sprinter_description/config/sprinter_controllers.yaml -p use_sim_time:=true --param use_sim_time:=true 
+[spawner-5] [INFO] [1765108858.640997071] [spawner_joint_trajectory_controller]: Loaded joint_trajectory_controller
+[gazebo-1] [INFO] [1765108858.654341166] [controller_manager]: Configuring controller: 'joint_trajectory_controller'
+[gazebo-1] [INFO] [1765108858.654645209] [joint_trajectory_controller]: No specific joint names are used for command interfaces. Using 'joints' parameter.
+[gazebo-1] [INFO] [1765108858.654775603] [joint_trajectory_controller]: Command interfaces are [position] and state interfaces are [position velocity].
+[gazebo-1] [INFO] [1765108858.654825253] [joint_trajectory_controller]: Using 'splines' interpolation method.
+[gazebo-1] [INFO] [1765108858.678514843] [joint_trajectory_controller]: Action status changes will be monitored at 20.00 Hz.
+[sprint_controller-7] [INFO] [1765108858.681243239] [sprint_controller]: Sprint completed in 1.90s!
+[sprint_controller-7] [INFO] [1765108858.685537621] [sprint_controller]: --- STATE CHANGE: FINISHED ---
+[gazebo-1] [INFO] [1765108858.795135197] [controller_manager]: Activating controllers: [ joint_trajectory_controller ]
+[gazebo-1] [INFO] [1765108858.801521401] [controller_manager]: Successfully switched controllers!
+[spawner-5] [INFO] [1765108858.833446015] [spawner_joint_trajectory_controller]: Configured and activated joint_trajectory_controller
+[gazebo-1] [WARN] [1765108859.111953985] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [GUI] [Msg] m
+[gazebo-1] [Dbg] [EntityComponentManager.cc:1656] Updated state thread iterators: 4 threads processing around 8 entities each.
+[gazebo-1] [Dbg] [SimulationRunner.cc:560] Exiting postupdate worker thread (0)
+[gazebo-1] [Dbg] [SimulationRunner.cc:560] Exiting postupdate worker thread (1)
+[gazebo-1] [Dbg] [SimulationRunner.cc:533] Creating PostUpdate worker threads: 4
+[gazebo-1] [Dbg] [SimulationRunner.cc:544] Creating postupdate worker thread (0)
+[gazebo-1] [Dbg] [SimulationRunner.cc:544] Creating postupdate worker thread (1)
+[gazebo-1] [Dbg] [SimulationRunner.cc:544] Creating postupdate worker thread (2)
+[bolt_motion-6] [INFO] [1765108859.546908563] [bolt_motion]: Run 1 finished at x=60.0 m (t_in=6.33s).
+[bolt_motion-6] [INFO] [1765108859.568410778] [bolt_motion]: Resetting to start. Run 2 started at x=0.0 m.
+[INFO] [spawner-5]: process has finished cleanly [pid 67387]
+[gazebo-1] [WARN] [1765108860.149839635] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[sprint_controller-7] [INFO] [1765108860.670885946] [sprint_controller]: Controller is now idle.
+[gazebo-1] [WARN] [1765108861.163982444] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108862.164941919] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108863.212409754] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108864.228187313] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108865.266542594] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[bolt_motion-6] [INFO] [1765108865.850322818] [bolt_motion]: Run 2 finished at x=60.0 m (t_in=6.32s).
+[bolt_motion-6] [INFO] [1765108865.850936171] [bolt_motion]: Resetting to start. Run 3 started at x=0.0 m.
+[gazebo-1] [WARN] [1765108866.270239475] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108867.275074946] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108868.319354395] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108869.344083205] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108870.376347357] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108871.389767748] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[bolt_motion-6] [INFO] [1765108872.166929033] [bolt_motion]: Run 3 finished at x=60.0 m (t_in=6.32s).
+[bolt_motion-6] [INFO] [1765108872.172000971] [bolt_motion]: Resetting to start. Run 4 started at x=0.0 m.
+[gazebo-1] [WARN] [1765108872.415701522] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108873.420893815] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108874.434142508] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108875.450132995] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108876.467738276] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108877.501379448] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[bolt_motion-6] [INFO] [1765108878.481047645] [bolt_motion]: Run 4 finished at x=60.0 m (t_in=6.31s).
+[bolt_motion-6] [INFO] [1765108878.482054230] [bolt_motion]: Resetting to start. Run 5 started at x=0.0 m.
+[gazebo-1] [WARN] [1765108878.516927128] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108879.518964013] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108880.521700155] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108881.547105506] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108882.549016570] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108883.556101843] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108884.576431855] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[bolt_motion-6] [INFO] [1765108884.789197625] [bolt_motion]: Run 5 finished at x=60.0 m (t_in=6.31s).
+[bolt_motion-6] [INFO] [1765108884.790028251] [bolt_motion]: All 5 runs complete. Holding at finish line (x=60.0 m).
+[gazebo-1] [WARN] [1765108885.585423162] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108886.622359147] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108887.625607976] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108888.636362679] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108889.644806930] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108890.646184179] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108891.658220186] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108892.680056158] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108893.715179326] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108894.768102763] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108895.783263132] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108896.808070005] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108897.822808463] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108898.848558506] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108899.862442448] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108900.871819554] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108901.881364590] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108902.893364158] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108903.936976437] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108904.942970184] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108905.969621428] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108906.984450438] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108907.995700948] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108909.002776660] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108910.010242936] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108911.049898203] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108912.070449765] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108913.073722009] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108914.085385496] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108915.091116494] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108916.104029707] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108917.156233868] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108918.187041067] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108919.213384618] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108920.255211946] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108921.272568076] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108922.301910708] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108923.309808055] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108924.317366189] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108925.328565909] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108926.338047594] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108927.381903901] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108928.384551852] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108929.387153558] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108930.407816515] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108931.438642639] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108932.447695470] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108933.465108632] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108934.487514899] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108935.498509657] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108936.523714071] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108937.582332332] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time parameter) and if a valid clock source is available
+[gazebo-1] [WARN] [1765108938.587339283] [controller_manager]: No clock received, using time argument instead! Check your node's clock configuration (use_sim_time p
