@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="leg" params="prefix reflect">
+
+    <!-- Hip Joint -->
+    <joint name="${prefix}_hip_joint" type="revolute">
+      <parent link="base_link"/>
+      <child link="${prefix}_thigh_link"/>
+      <origin xyz="0 ${pelvis_w/2 * reflect} 0" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <!-- *** THE FIX: Increased effort limit for more motor strength *** -->
+      <limit lower="-1.57" upper="1.57" effort="10000" velocity="100"/>
+      <!-- *** THE FIX: Increased damping for more stability *** -->
+      <dynamics damping="1.0" friction="0.5"/>
+    </joint>
+
+    <!-- Thigh Link -->
+    <link name="${prefix}_thigh_link">
+      <visual>
+        <origin xyz="0 0 -${thigh_L/2}" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://sprinter_description/meshes/Oberschenkel.stl"/>
+        </geometry>
+        <material name="Grey"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 -${thigh_L/2}" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://sprinter_description/meshes/Oberschenkel.stl"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="5.0"/>
+        <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.01"/>
+      </inertial>
+    </link>
+
+    <!-- Knee Joint -->
+    <joint name="${prefix}_knee_joint" type="revolute">
+      <parent link="${prefix}_thigh_link"/>
+      <child link="${prefix}_shank_link"/>
+      <origin xyz="0 0 -${thigh_L}" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <!-- *** THE FIX: Increased effort limit for more motor strength *** -->
+      <limit lower="0" upper="2.8" effort="10000" velocity="100"/>
+      <!-- *** THE FIX: Increased damping for more stability *** -->
+      <dynamics damping="1.0" friction="0.5"/>
+    </joint>
+
+    <!-- Shank Link -->
+    <link name="${prefix}_shank_link">
+      <visual>
+        <origin xyz="0 0 -${shank_L/2}" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://sprinter_description/meshes/Bein.stl"/>
+        </geometry>
+        <material name="Grey"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 -${shank_L/2}" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://sprinter_description/meshes/Bein.stl"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="3.5"/>
+        <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.01"/>
+      </inertial>
+    </link>
+
+    <gazebo reference="${prefix}_shank_link">
+        <mu1>1.0</mu1>
+        <mu2>1.0</mu2>
+        <material>Gazebo/Grey</material>
+    </gazebo>
+
+    <gazebo reference="${prefix}_thigh_link">
+      <self_collide>false</self_collide>
+    </gazebo>
+
+  </xacro:macro>
+</robot>
+

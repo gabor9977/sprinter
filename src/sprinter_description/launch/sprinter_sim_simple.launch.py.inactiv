@@ -1,0 +1,139 @@
+import os
+from ament_index_python.packages import get_package_share_directory
+from launch import LaunchDescription
+from launch.actions import (
+    DeclareLaunchArgument,
+    IncludeLaunchDescription,
+    RegisterEventHandler,
+)
+from launch.event_handlers import OnProcessExit
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.substitutions import LaunchConfiguration
+from launch_ros.actions import Node
+import xacro
+
+
+def generate_launch_description():
+
+    declare_use_sim_time_argument = DeclareLaunchArgument(
+        "use_sim_time",
+        default_value="true",
+        description="Use simulation (Gazebo) clock if true",
+    )
+
+    world_file = os.path.join(
+        get_package_share_directory("sprinter_description"), "urdf", "ground_plane.sdf"
+    )
+
+    gazebo = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            [
+                os.path.join(
+                    get_package_share_directory("ros_gz_sim"),
+                    "launch",
+                    "gz_sim.launch.py",
+                )
+            ]
+        ),
+        launch_arguments={"gz_args": f"-r -v 4 {world_file}"}.items(),
+    )
+
+    pkg_path = get_package_share_directory("sprinter_description")
+    xacro_file = os.path.join(pkg_path, "urdf", "sprinter_simple.xacro")
+    robot_description_config = xacro.process_file(xacro_file)
+    robot_description = {"robot_description": robot_description_config.toxml()}
+
+    node_robot_state_publisher = Node(
+        package="robot_state_publisher",
+        executable="robot_state_publisher",
+        output="screen",
+        parameters=[robot_description, {"use_sim_time": True}],
+    )
+
+    spawn_entity = Node(
+        package="ros_gz_sim",
+        executable="create",
+        arguments=[
+            "-topic",
+            "robot_description",
+            "-entity",
+            "sprinter",
+            "-x",
+            "0",
+            "-y",
+            "0",
+            "-z",
+            "1.0",
+        ],
+        output="screen",
+    )
+
+    # *** THE DEFINITIVE FIX: Bridge the exact topic discovered with `gz topic -l` ***
+    bridge = Node(
+        package="ros_gz_bridge",
+        executable="parameter_bridge",
+        arguments=[
+            "/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock",
+            # This now matches the true Gazebo topic for moving objects.
+            # The message type is Pose_V, which corresponds to PoseArray in ROS 2.
+            "/model/sprinter/pose@geometry_msgs/msg/Pose@gz.msgs.Pose",
+        ],
+        remappings=[
+        # We create a clean, predictable ROS 2 topic name.
+            ("/model/sprinter/pose","/sprinter/pose")
+        ],
+        parameters=[{"use_sim_time": True}],
+        output="screen",
+    )
+
+    joint_state_broadcaster_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=[
+            "joint_state_broadcaster",
+            "--controller-manager",
+            "/controller_manager",
+        ],
+    )
+
+    joint_trajectory_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=[
+            "joint_trajectory_controller",
+            "--controller-manager",
+            "/controller_manager",
+        ],
+    )
+
+    sprint_controller_node = Node(
+        package="sprinter_control", executable="sprint_controller", output="screen"
+    )
+
+    return LaunchDescription(
+        [
+            declare_use_sim_time_argument,
+            gazebo,
+            bridge,
+            node_robot_state_publisher,
+            spawn_entity,
+            RegisterEventHandler(
+                event_handler=OnProcessExit(
+                    target_action=spawn_entity,
+                    on_exit=[joint_state_broadcaster_spawner],
+                )
+            ),
+            RegisterEventHandler(
+                event_handler=OnProcessExit(
+                    target_action=joint_state_broadcaster_spawner,
+                    on_exit=[joint_trajectory_controller_spawner],
+                )
+            ),
+            RegisterEventHandler(
+                event_handler=OnProcessExit(
+                    target_action=joint_trajectory_controller_spawner,
+                    on_exit=[sprint_controller_node],
+                )
+            ),
+        ]
+    )

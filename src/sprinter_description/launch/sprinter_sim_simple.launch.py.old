@@ -1,0 +1,97 @@
+import os
+from ament_index_python.packages import get_package_share_directory
+from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, RegisterEventHandler
+from launch.event_handlers import OnProcessExit
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.substitutions import LaunchConfiguration
+from launch_ros.actions import Node
+import xacro
+
+def generate_launch_description():
+
+    # --- Standard ROS 2 Launch file setup ---
+    
+    # 1. Declare the `use_sim_time` argument
+    declare_use_sim_time_argument = DeclareLaunchArgument(
+        'use_sim_time',
+        default_value='true',
+        description='Use simulation (Gazebo) clock if true')
+    
+    # 2. Get the Gazebo launch file
+    # This includes the ros_gz_bridge for the /clock topic
+    gazebo = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([os.path.join(
+            get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')]),
+        launch_arguments={'gz_args': '-r -v 4 empty.sdf'}.items()
+    )
+
+    # 3. Get the robot description from the XACRO file
+    pkg_path = get_package_share_directory('sprinter_description')
+    xacro_file = os.path.join(pkg_path, 'urdf', 'sprinter_simple.xacro')
+    robot_description_config = xacro.process_file(xacro_file)
+    robot_description = {'robot_description': robot_description_config.toxml()}
+
+    # 4. Robot State Publisher Node
+    node_robot_state_publisher = Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        output='screen',
+        parameters=[robot_description, {'use_sim_time': True}]
+    )
+
+    # 5. Spawn the robot in Gazebo
+    # This node waits for Gazebo to be ready and then adds the robot model.
+    spawn_entity = Node(
+        package='ros_gz_sim',
+        executable='create',
+        arguments=['-topic', 'robot_description',
+                   '-entity', 'sprinter'],
+        output='screen'
+    )
+
+    # --- ros2_control Controller Spawners ---
+    # These are the nodes that were failing.
+
+    # 6. Joint State Broadcaster
+    joint_state_broadcaster_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
+    )
+
+    # 7. Joint Trajectory Controller
+    joint_trajectory_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_trajectory_controller", "--controller-manager", "/controller_manager"],
+    )
+    
+    # --- Launch Description Order ---
+    # We will now define the sequence of events.
+    return LaunchDescription([
+        declare_use_sim_time_argument,
+        gazebo,
+        node_robot_state_publisher,
+        spawn_entity,
+        
+        # *** THE CRITICAL FIX ***
+        # Use an event handler to delay the start of the controller spawners.
+        # This says: "Wait until the 'spawn_entity' process has finished successfully,
+        # and only THEN start the 'joint_state_broadcaster_spawner'."
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
+                target_action=spawn_entity,
+                on_exit=[joint_state_broadcaster_spawner],
+            )
+        ),
+        
+        # This says: "Wait until the 'joint_state_broadcaster_spawner' has finished,
+        # and only THEN start the 'joint_trajectory_controller_spawner'."
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
+                target_action=joint_state_broadcaster_spawner,
+                on_exit=[joint_trajectory_controller_spawner],
+            )
+        ),
+    ])

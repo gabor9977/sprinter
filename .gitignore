@@ -1,0 +1,7 @@
+build
+install
+build_inactive
+install_inactive
+log
+__pycache__/
+

@@ -1,0 +1,29 @@
+
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="distance_sensor">
+  <!-- Parameters for flexibility -->
+  <xacro:property name="mass" value="1.0"/>
+  <xacro:property name="color" value="0.6 0.6 0.6 1.0"/>
+  <xacro:property name="mesh_path" value="package://bolt_sprint_sim/meshes/sensor.stl"/>
+
+  <link name="sensor_base">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="${mesh_path}" scale="1 1 1"/>
+      </geometry>
+      <material name="gray">
+        <color rgba="${color}"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="${mesh_path}" scale="1 1 1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="${mass}"/>
+      <inertia ixx="0.01" iyy="0.01" izz="0.01" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+</robot>

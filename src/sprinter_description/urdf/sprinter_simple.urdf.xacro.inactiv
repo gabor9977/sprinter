@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<robot name="sprinter"
+  xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="leg" params="prefix y_sign pelvis_w thigh_L shank_L thigh_r shank_r">
+    <xacro:property name="hip_y" value="${y_sign * pelvis_w/2.0}"/>
+
+    <link name="${prefix}_thigh">
+      <visual>
+        <!-- <origin xyz="0 0 ${-thigh_L/2.0}" rpy="1.5708 0 0"/> -->
+        <origin xyz="0.05 -0.10 ${-thigh_L-0.05}" rpy="1.5708 0 0"/>
+        <geometry>
+          <mesh filename="package://sprinter_description/meshes/Oberschenkel.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="${prefix}_thigh_color">
+          <color rgba="${1.0 if prefix == 'left' else 0.0} ${0.0 if prefix == 'left' else 0.2} ${0.0 if prefix == 'left' else 1.0} 1"/>
+        </material>
+      </visual>
+      <collision>
+        <!-- <origin xyz="0 0 ${-thigh_L/2.0}" rpy="1.5708 0 0"/> -->
+        <origin xyz="0.05 -0.10 ${-thigh_L-0.05}" rpy="1.5708 0 0"/>
+        <geometry>
+          <mesh filename="package://sprinter_description/meshes/Oberschenkel.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${prefix}_hip_joint" type="revolute">
+      <parent link="base_link"/>
+      <child link="${prefix}_thigh"/>
+      <origin xyz="0 ${hip_y} 0" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <limit lower="-0.35" upper="2.10" velocity="10.0" effort="100.0"/>
+    </joint>
+
+    <link name="${prefix}_shank">
+      <visual>
+        <!-- <origin xyz="0 0 ${-shank_L/2.0}" rpy="1.5708 0 -1.5708"/> -->
+        <origin xyz="0 0 ${-shank_L}" rpy="1.5708 0 -1.5708"/>
+
+        <geometry>
+          <mesh filename="package://sprinter_description/meshes/Bein.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="${prefix}_shank_color">
+          <color rgba="${1.0 if prefix == 'left' else 0.0} ${0.0 if prefix == 'left' else 0.2} ${0.0 if prefix == 'left' else 1.0} 1"/>
+        </material>
+      </visual>
+      <collision>
+        <!-- <origin xyz="0 0 ${-shank_L/2.0}" rpy="1.5708 0 -1.5708"/> -->
+        <origin xyz="0 0 ${-shank_L}" rpy="1.5708 0 -1.5708"/>
+
+        <geometry>
+          <mesh filename="package://sprinter_description/meshes/Bein.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${prefix}_knee_joint" type="revolute">
+      <parent link="${prefix}_thigh"/>
+      <child link="${prefix}_shank"/>
+      <origin xyz="0 0 ${-thigh_L}" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <limit lower="0.0" upper="2.10" velocity="12.0" effort="80.0"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:property name="pelvis_w" value="0.28"/>
+  <xacro:property name="thigh_L" value="0.40"/>
+  <xacro:property name="shank_L" value="0.45"/>
+  <xacro:property name="thigh_r" value="0.06"/>
+  <xacro:property name="shank_r" value="0.05"/>
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${pelvis_w} 0.06 0.10"/>
+      </geometry>
+      <material name="PelvisGrey">
+        <color rgba="0.6 0.6 0.6 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${pelvis_w} 0.06 0.10"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <xacro:leg prefix="left" y_sign="1.0" pelvis_w="${pelvis_w}" thigh_L="${thigh_L}" shank_L="${shank_L}" thigh_r="${thigh_r}" shank_r="${shank_r}"/>
+
+  <xacro:leg prefix="right" y_sign="-1.0" pelvis_w="${pelvis_w}" thigh_L="${thigh_L}" shank_L="${shank_L}" thigh_r="${thigh_r}" shank_r="${shank_r}"/>
+
+</robot>

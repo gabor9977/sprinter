@@ -1,0 +1,97 @@
+import math
+import rclpy
+from rclpy.node import Node
+from sensor_msgs.msg import JointState
+
+class GaitJS(Node):
+    """Publishes /joint_states to animate hips/knees for a fixed duration, then holds."""
+    def __init__(self):
+        super().__init__('gait_jointstate')
+        self.declare_parameter('repeats', 5)
+        self.declare_parameter('cycle_duration', 6.31)
+        self.repeats = int(self.get_parameter('repeats').value)
+        self.cycle_T = float(self.get_parameter('cycle_duration').value)
+
+        self.freq = 3.0
+        self.A_hip = math.radians(35)
+        self.A_knee = math.radians(55)
+        self.hip_bias = math.radians(15)
+        self.knee_bias = math.radians(10)
+        self.names = ['left_hip_joint','left_knee_joint','right_hip_joint','right_knee_joint']
+
+        self.pub = self.create_publisher(JointState, '/joint_states', 10)
+
+        self.dt = 0.01
+        self.t0 = self.get_clock().now()
+        self.t = 0.0
+        self.run_idx = 1
+        self.started = False
+        self.done = False
+        self.last_pos = [self.hip_bias, self.knee_bias, self.hip_bias, self.knee_bias]
+
+        self.timer = self.create_timer(self.dt, self.step)
+
+    def step(self):
+        now = self.get_clock().now()
+        self.t = (now - self.t0).nanoseconds * 1e-9
+
+        if not self.started:
+            self.get_logger().info("Gait: Run 1 started")
+            self.started = True
+
+        if self.done:
+            msg = JointState()
+            msg.header.stamp = now.to_msg()
+            msg.name = self.names
+            msg.position = self.last_pos
+            self.pub.publish(msg)
+            return
+
+        t_in = self.t - (self.run_idx - 1) * self.cycle_T
+        if t_in >= self.cycle_T:
+            self.get_logger().info(f"Gait: Run {self.run_idx} finished (t={self.t:.2f}s)")
+            self.run_idx += 1
+            if self.run_idx > self.repeats:
+                self.done = True
+                self.get_logger().info("Gait: All runs complete. Holding final pose.")
+                msg = JointState()
+                msg.header.stamp = now.to_msg()
+                msg.name = self.names
+                msg.position = self.last_pos
+                self.pub.publish(msg)
+                return
+            else:
+                self.get_logger().info(f"Gait: Run {self.run_idx} started (t={self.t:.2f}s)")
+                t_in = 0.0
+
+        w = 2 * math.pi * self.freq
+        phi = math.pi
+        lh = self.hip_bias + self.A_hip * math.sin(w * self.t)
+        rh = self.hip_bias + self.A_hip * math.sin(w * self.t + phi)
+        lk = self.knee_bias + self.A_knee * max(0.0, math.sin(w * self.t + 0.5))
+        rk = self.knee_bias + self.A_knee * max(0.0, math.sin(w * self.t + phi + 0.5))
+        def clamp(x, lo, hi): return max(lo, min(hi, x))
+        pos = [clamp(lh, -0.35, 2.10),
+               clamp(lk,  0.00, 2.10),
+               clamp(rh, -0.35, 2.10),
+               clamp(rk,  0.00, 2.10)]
+        self.last_pos = pos
+
+        msg = JointState()
+        msg.header.stamp = now.to_msg()
+        msg.name = self.names
+        msg.position = pos
+        self.pub.publish(msg)
+
+def main():
+    rclpy.init()
+    node = GaitJS()
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        pass
+    node.destroy_node()
+    rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()

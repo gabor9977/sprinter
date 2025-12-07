@@ -1,0 +1,181 @@
+import rclpy
+from rclpy.node import Node
+from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
+from geometry_msgs.msg import Pose
+from builtin_interfaces.msg import Duration
+import math
+from enum import Enum
+import numpy as np
+
+
+# A multi-stage state machine for a robust start sequence
+class SprintState(Enum):
+    WAITING_FOR_POSE = 0
+    PREPARING = 1
+    READY_STANCE = 2
+    SPRINTING = 3
+    FINISHED = 4
+
+
+class SprintController(Node):
+    def __init__(self):
+        super().__init__("sprint_controller")
+
+        # Simulation parameters
+        self.sprint_distance = 60 #alt: 100
+        self.timer_period = 2.0  # 5 Hz control loop
+
+        # Usain Bolt's performance data for interpolation
+        self.bolt_split_distances = np.array(
+            [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+        )
+        self.bolt_split_speeds = np.array(
+            [0.0, 9.8, 11.1, 11.6, 12.0, 12.2, 12.3, 12.4, 12.3, 12.2, 12.0]
+        )
+
+        # State machine initialization
+        self.state = SprintState.WAITING_FOR_POSE
+        self.current_position_x = 0.0
+        self.pose_received = False
+        self.get_logger().info("Controller started. State: WAITING_FOR_POSE")
+        self.get_logger().info("Subscribing to '/sprinter/pose'...")
+
+        # ROS 2 Publishers and Subscribers
+        self.publisher_ = self.create_publisher(
+            JointTrajectory, "/joint_trajectory_controller/joint_trajectory", 10
+        )
+        self.pose_subscription = self.create_subscription(
+            Pose, "/sprinter/pose", self.pose_callback, 10
+        )
+        self.control_loop_timer = self.create_timer(
+            self.timer_period, self.control_loop
+        )
+
+        # The joints our controller is responsible for
+        self.joint_names = [
+            "left_hip_joint",
+            "right_hip_joint",
+            "left_knee_joint",
+            "right_knee_joint",
+        ]
+
+    def pose_callback(self, msg):
+        """This function is the main trigger for the entire robot action sequence."""
+        self.current_position_x = msg.position.x
+
+        # This block should only ever run ONCE, the first time a pose is received.
+        if not self.pose_received:
+            self.pose_received = True
+            self.get_logger().info("SUCCESS: First robot pose received from Gazebo.")
+
+            # 1. Transition to the first preparation state
+            self.state = SprintState.PREPARING
+            self.get_logger().info(
+                f"--- STATE CHANGE: PREPARING (Moving to stable stand) ---"
+            )
+            self.execute_stable_stand()
+
+            # 2. Start a timer to transition to the next state
+            self.create_timer(1.5, self.transition_to_ready, oneshot=True)
+
+    def transition_to_ready(self):
+        """Called by a timer after the robot has stabilized in a standing pose."""
+        self.state = SprintState.READY_STANCE
+        self.get_logger().info(
+            f"--- STATE CHANGE: READY_STANCE (Getting into crouch) ---"
+        )
+        self.execute_ready_stance()
+
+        # Start a final timer to begin the sprint
+        self.create_timer(2.0, self.start_sprint, oneshot=True)
+
+    def start_sprint(self):
+        """Called by a timer after the robot is in its ready crouch."""
+        self.state = SprintState.SPRINTING
+        self.get_logger().info(f"--- STATE CHANGE: SPRINTING ---")
+        self.start_time = self.get_clock().now()
+
+    def control_loop(self):
+        """The main brain, running at a fixed frequency to command the robot."""
+        if self.state == SprintState.SPRINTING:
+            self.execute_sprint_gait()
+            if self.current_position_x >= self.sprint_distance:
+                sprint_duration = (
+                    self.get_clock().now() - self.start_time
+                ).nanoseconds / 1e9
+                self.get_logger().info(f"Sprint completed in {sprint_duration:.2f}s!")
+                self.state = SprintState.FINISHED
+                self.get_logger().info(f"--- STATE CHANGE: FINISHED ---")
+
+        elif self.state == SprintState.FINISHED:
+            self.execute_idle()
+            self.control_loop_timer.cancel()
+            self.get_logger().info("Controller is now idle.")
+
+    def execute_stable_stand(self):
+        """Commands the robot to a simple, stable standing pose after landing."""
+        point = JointTrajectoryPoint()
+        point.positions = [0.0, 0.0, 0.1, 0.1]  # Hips straight, knees slightly bent
+        point.velocities = [0.0, 0.0, 0.0, 0.0]
+        point.time_from_start = Duration(sec=1, nanosec=0)
+        traj_msg = JointTrajectory()
+        traj_msg.joint_names = self.joint_names
+        traj_msg.points.append(point)
+        self.publisher_.publish(traj_msg)
+
+    def execute_ready_stance(self):
+        """Commands the robot to a more athletic, stable, crouched position."""
+        point = JointTrajectoryPoint()
+        point.positions = [0.5, -0.5, 1.0, 1.0]  # [L_hip, R_hip, L_knee, R_knee]
+        point.velocities = [0.0, 0.0, 0.0, 0.0]
+        point.time_from_start = Duration(sec=1, nanosec=500000000)
+        traj_msg = JointTrajectory()
+        traj_msg.joint_names = self.joint_names
+        traj_msg.points.append(point)
+        self.publisher_.publish(traj_msg)
+
+    def execute_sprint_gait(self):
+        """Calculates and sends the dynamic running motion commands."""
+        target_leg_cycle_speed = np.interp(
+            self.current_position_x, self.bolt_split_distances, self.bolt_split_speeds
+        )
+        stride_clock = (self.get_clock().now().nanoseconds / 1e9) * (
+            target_leg_cycle_speed / 4.0
+        )
+        HIP_RANGE, HIP_OFFSET, KNEE_RANGE = 2.44, 0.35, 2.35
+        phase_shift = math.pi
+        left_phase, right_phase = stride_clock, stride_clock + phase_shift
+        left_hip_pos = (HIP_RANGE / 2) * math.sin(left_phase) + HIP_OFFSET
+        left_knee_pos = (KNEE_RANGE / 2) * (math.sin(left_phase + math.pi / 2) + 1)
+        right_hip_pos = (HIP_RANGE / 2) * math.sin(right_phase) + HIP_OFFSET
+        right_knee_pos = (KNEE_RANGE / 2) * (math.sin(right_phase + math.pi / 2) + 1)
+        point = JointTrajectoryPoint()
+        point.positions = [left_hip_pos, right_hip_pos, left_knee_pos, right_knee_pos]
+        point.velocities = [0.0, 0.0, 0.0, 0.0]
+        point.time_from_start = Duration(sec=0, nanosec=int(self.timer_period * 1e9))
+        traj_msg = JointTrajectory()
+        traj_msg.joint_names = self.joint_names
+        traj_msg.points.append(point)
+        self.publisher_.publish(traj_msg)
+
+    def execute_idle(self):
+        """Commands the robot to a neutral, stationary pose."""
+        point = JointTrajectoryPoint()
+        point.positions = [0.0, 0.0, 0.0, 0.0]
+        point.time_from_start = Duration(sec=1, nanosec=0)
+        traj_msg = JointTrajectory()
+        traj_msg.joint_names = self.joint_names
+        traj_msg.points.append(point)
+        self.publisher_.publish(traj_msg)
+
+
+def main(args=None):
+    rclpy.init(args=args)
+    sprint_controller = SprintController()
+    rclpy.spin(sprint_controller)
+    sprint_controller.destroy_node()
+    rclpy.shutdown()
+
+
+if __name__ == "__main__":
+    main()

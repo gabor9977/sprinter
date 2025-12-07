@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<robot name="sprinter" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find sprinter_description)/urdf/leg_macro.xacro" />
+
+  <material name="Grey"><color rgba="0.6 0.6 0.6 1.0"/></material>
+  <material name="Blue"><color rgba="0.2 0.2 0.8 1.0"/></material>
+
+  <link name="world"/>
+
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <!-- <mesh filename="package://sprinter_description/meshes/Sensor.stl"/> -->
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+      <material name="Blue"/>
+    </visual>
+    <collision>
+      <geometry>
+        <!-- <mesh filename="package://sprinter_description/meshes/Sensor.stl"/> -->
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="15.0"/>
+      <inertia ixx="0.5" ixy="0" ixz="0" iyy="0.5" iyz="0" izz="0.5"/>
+    </inertial>
+  </link>
+
+  <joint name="world_to_base_joint" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 1.0" rpy="0 0 0"/>
+  </joint>
+
+  <xacro:leg prefix="left" reflect="1"/>
+  <xacro:leg prefix="right" reflect="-1"/>
+
+  <ros2_control name="GazeboSystem" type="system">
+    <hardware>
+      <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+    </hardware>
+    <joint name="left_hip_joint">
+      <command_interface name="position"/>
+      <state_interface name="position"/><state_interface name="velocity"/>
+    </joint>
+    <joint name="right_hip_joint">
+      <command_interface name="position"/>
+      <state_interface name="position"/><state_interface name="velocity"/>
+    </joint>
+    <joint name="left_knee_joint">
+      <command_interface name="position"/>
+      <state_interface name="position"/><state_interface name="velocity"/>
+    </joint>
+    <joint name="right_knee_joint">
+      <command_interface name="position"/>
+      <state_interface name="position"/><state_interface name="velocity"/>
+    </joint>
+  </ros2_control>
+
+  <gazebo>
+    <plugin filename="libgz_ros2_control-system.so" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+        <ros>
+            <namespace>/sprinter</namespace>
+            <parameters>$(find sprinter_description)/config/sprinter_controllers.yaml</parameters>
+        </ros>
+    </plugin>
+  </gazebo>
+
+</robot>
