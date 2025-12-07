@@ -22,7 +22,7 @@ setup(
             'bolt_motion = sprinter_control.bolt_motion:main',
             'finish_line_markers = sprinter_control.finish_line_markers:main',
             'sprinter = sprinter_control.sprinter:main',
-            # 'sprint_controller = sprinter_control.sprint_controller:main',
+            'sprint_controller = sprinter_control.sprint_controller:main',
             'distance_sensor = sprinter_control.distance_sensor:main',
         ],
     },

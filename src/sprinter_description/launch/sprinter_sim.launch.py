@@ -9,27 +9,18 @@ import xacro
 def generate_launch_description():
     pkg_path = get_package_share_directory('sprinter_description')
     xacro_file = os.path.join(pkg_path, 'urdf', 'sprinter.xacro')
-    robot_description_config = xacro.process_file(xacro_file)
-    robot_description = {'robot_description': robot_description_config.toxml()}
-
-    ros2_control_config = os.path.join(
-        get_package_share_directory('sprinter_control'),
-        'config',
-        'ros2_control.yaml'
+    controllers_file = os.path.join(pkg_path, 'config', 'sprinter_controllers.yaml')
+    robot_description_config = xacro.process_file(
+        xacro_file,
+        mappings={'controllers_file': controllers_file}
     )
+    robot_description = {'robot_description': robot_description_config.toxml()}
 
     node_robot_state_publisher = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
         output='screen',
         parameters=[robot_description]
-    )
-
-    ros2_control_node = Node(
-        package='controller_manager',
-        executable='ros2_control_node',
-        parameters=[ros2_control_config],
-        output='screen'
     )
 
     bolt_motion_node = Node(
@@ -39,6 +30,12 @@ def generate_launch_description():
         output="screen",
     )
  
+    sprint_controller_node = Node(
+        package="sprinter_control",
+        executable="sprint_controller",
+        output="screen",
+    )
+    
     # gait_node = Node(
     #     package="sprinter_control",
     #     executable="gait_jointstate",
@@ -74,9 +71,10 @@ def generate_launch_description():
     return LaunchDescription([
         gazebo,
         node_robot_state_publisher,
-        ros2_control_node,
         spawn_entity,
         joint_state_broadcaster_spawner,
         joint_trajectory_controller_spawner,
         bolt_motion_node,
+        sprint_controller_node,
+        # gait_node,  # Deactivated - executable doesn't exist
     ])

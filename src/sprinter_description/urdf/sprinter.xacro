@@ -59,12 +59,11 @@
     </joint>
   </ros2_control>
 
+  <xacro:arg name="controllers_file" default=""/>
+
   <gazebo>
     <plugin filename="libgz_ros2_control-system.so" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
-        <ros>
-            <namespace>/sprinter</namespace>
-            <parameters>$(find sprinter_description)/config/sprinter_controllers.yaml</parameters>
-        </ros>
+        <parameters>$(arg controllers_file)</parameters>
     </plugin>
   </gazebo>
 

@@ -76,10 +76,11 @@ class SprintController(Node):
             self.execute_stable_stand()
 
             # 2. Start a timer to transition to the next state
-            self.create_timer(1.5, self.transition_to_ready, oneshot=True)
+            self.ready_timer = self.create_timer(1.5, self.transition_to_ready)
 
     def transition_to_ready(self):
         """Called by a timer after the robot has stabilized in a standing pose."""
+        self.ready_timer.cancel()  # Cancel timer after first call
         self.state = SprintState.READY_STANCE
         self.get_logger().info(
             f"--- STATE CHANGE: READY_STANCE (Getting into crouch) ---"
@@ -87,10 +88,11 @@ class SprintController(Node):
         self.execute_ready_stance()
 
         # Start a final timer to begin the sprint
-        self.create_timer(2.0, self.start_sprint, oneshot=True)
+        self.sprint_timer = self.create_timer(2.0, self.start_sprint)
 
     def start_sprint(self):
         """Called by a timer after the robot is in its ready crouch."""
+        self.sprint_timer.cancel()  # Cancel timer after first call
         self.state = SprintState.SPRINTING
         self.get_logger().info(f"--- STATE CHANGE: SPRINTING ---")
         self.start_time = self.get_clock().now()

@@ -1,7 +1,8 @@
 import rclpy
 from rclpy.node import Node
-from geometry_msgs.msg import TransformStamped
+from geometry_msgs.msg import TransformStamped, Pose
 from tf2_ros import TransformBroadcaster
+from ros_gz_interfaces.srv import SetEntityPose
 
 
 class BoltMotion(Node):
@@ -14,6 +15,14 @@ class BoltMotion(Node):
     def __init__(self):
         super().__init__("bolt_motion")
         self.br = TransformBroadcaster(self)
+        
+        # Publisher for sprint_controller coordination
+        self.pose_pub = self.create_publisher(Pose, '/sprinter/pose', 10)
+        
+        # Service client to actually move the robot in Gazebo
+        self.set_pose_client = self.create_client(SetEntityPose, '/world/empty/set_pose')
+        self.service_ready_logged = False
+        
         self.declare_parameter("hip_z", 0.90) #Höhe Hüfte
         self.declare_parameter("repeats", 5) #Wiederholungen
         self.z = float(self.get_parameter("hip_z").value)
@@ -27,8 +36,20 @@ class BoltMotion(Node):
         self.done = False
         self.started = False
         self.run_start_time = None
-
-        self.timer = self.create_timer(0.01, self.step) #Initalisiert timer in 100 ms schritten
+        
+        # Wait for Gazebo service in a separate thread
+        self.get_logger().info("Waiting for Gazebo /world/empty/set_pose service...")
+        self.timer = self.create_timer(0.5, self.check_service)  # Check service every 0.5s
+        self.main_timer = None  # Will be created after service is ready
+    
+    def check_service(self):
+        """Check if Gazebo service is ready before starting main loop"""
+        if self.set_pose_client.service_is_ready():
+            self.get_logger().info("Gazebo set_pose service is ready! Starting motion...")
+            self.timer.cancel()  # Stop checking
+            self.main_timer = self.create_timer(0.01, self.step)  # Start main loop
+        else:
+            self.get_logger().info("Still waiting for Gazebo service...")
 
     def step(self):
         now = self.get_clock().now()
@@ -74,6 +95,30 @@ class BoltMotion(Node):
         tf.transform.rotation.z = 0.0
         tf.transform.rotation.w = 1.0
         self.br.sendTransform(tf)
+        
+        # Publish pose for sprint_controller coordination
+        pose_msg = Pose()
+        pose_msg.position.x = float(x)
+        pose_msg.position.y = 0.0
+        pose_msg.position.z = float(self.z)
+        pose_msg.orientation.w = 1.0
+        pose_msg.orientation.x = 0.0
+        pose_msg.orientation.y = 0.0
+        pose_msg.orientation.z = 0.0
+        self.pose_pub.publish(pose_msg)
+        
+        # Actually move the robot in Gazebo using service
+        request = SetEntityPose.Request()
+        request.entity.name = 'sprinter'
+        request.entity.type = 2  # MODEL type
+        request.pose.position.x = float(x)
+        request.pose.position.y = 0.0
+        request.pose.position.z = float(self.z)
+        request.pose.orientation.w = 1.0
+        request.pose.orientation.x = 0.0
+        request.pose.orientation.y = 0.0
+        request.pose.orientation.z = 0.0
+        self.set_pose_client.call_async(request)
 
     def interpolate_cycle(self, t: float) -> float:
         if t <= self.path[0][0]:
